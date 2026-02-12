@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <math.h>
+#include <float.h>
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
@@ -18,29 +18,29 @@ double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Si
         int partitionX = (low + high) / 2;
         int partitionY = (m + n + 1) / 2 - partitionX;
 
-        // If partitionX is 0, there is nothing on the left side. Use -infinity
-        // If partitionX is m, there is nothing on the right side. Use +infinity
-        int maxLeftX = (partitionX == 0) ? -1e7 : nums1[partitionX - 1];
-        int minRightX = (partitionX == m) ? 1e7 : nums1[partitionX];
+        // If partitionX is 0, there's nothing on the left side. Use -infinity
+        // If partitionX is m, there's nothing on the right side. Use +infinity
+        int maxLeftX = (partitionX == 0) ? -1000001 : nums1[partitionX - 1];
+        int minRightX = (partitionX == m) ? 1000001 : nums1[partitionX];
 
-        int maxLeftY = (partitionY == 0) ? -1e7 : nums2[partitionY - 1];
-        int minRightY = (partitionY == n) ? 1e7 : nums2[partitionY];
+        int maxLeftY = (partitionY == 0) ? -1000001 : nums2[partitionY - 1];
+        int minRightY = (partitionY == n) ? 1000001 : nums2[partitionY];
 
         if (maxLeftX <= minRightY && maxLeftY <= minRightX) {
-            // We have partitioned the arrays correctly
+            // We have partitioned array at correct place
             if ((m + n) % 2 == 0) {
                 return (double)(MAX(maxLeftX, maxLeftY) + MIN(minRightX, minRightY)) / 2.0;
             } else {
                 return (double)MAX(maxLeftX, maxLeftY);
             }
         } else if (maxLeftX > minRightY) {
-            // We are too far to the right in nums1, move left
+            // We are too far right in nums1, move left
             high = partitionX - 1;
         } else {
-            // We are too far to the left in nums1, move right
+            // We are too far left in nums1, move right
             low = partitionX + 1;
         }
     }
 
-    return 0.0;
+    return 0.0; // Should never reach here if input is sorted
 }
